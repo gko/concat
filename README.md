@@ -1,5 +1,7 @@
 # Concat
 
+[![Build Status](https://travis-ci.org/gko/concat.svg?branch=master)](https://travis-ci.org/gko/concat)
+
 Concatenate multiple files
 
 ## Usage
