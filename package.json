@@ -8,6 +8,10 @@
     "build": "./node_modules/.bin/tsc -t ES6 --module commonjs --moduleResolution node index.ts && npm run bin",
     "test": "npm run build && ./node_modules/.bin/_mocha"
   },
+  "bin": "./bin/concat",
+  "engines" : {
+    "node" : ">=6"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gko/csvy"

@@ -13,7 +13,7 @@ npm i concat -g
 ```bash
 Usage: concat [options]
 
-yaml/json converter to csv
+concatenate multiple files
 
 Options:
 
@@ -26,7 +26,7 @@ Options:
 
 examples:
 ```bash
-csvy -o output.css ./1.css ./2.css ./3.css
+concat -o output.css ./1.css ./2.css ./3.css
 ```
 
 You can also use it from node:
