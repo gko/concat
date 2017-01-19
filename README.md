@@ -2,12 +2,6 @@
 
 Concatenate multiple files
 
-## Installation
-
-```bash
-npm i concat -g
-```
-
 ## Usage
 
 ```bash
