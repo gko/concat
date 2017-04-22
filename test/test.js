@@ -35,6 +35,13 @@ describe('Concatenate', () => {
       done()
     }).catch(err)
   })
+
+  it('should concatenate folder', done => {
+    concat(__dirname + "/folder").then(f => {
+      assert.equal(f.trim(), 'function A() {};\n\nfunction B() {};')
+      done()
+    }).catch(err)
+  })
 })
 
 describe('cli', () => {

@@ -1,30 +1,43 @@
-import {readFile, writeFile} from 'fs'
-import {resolve} from 'path'
+import {readFile, readdir, statSync} from 'fs'
+import {resolve, join} from 'path'
 
-const write = (fName: string, str: string) => new Promise((res, rej) => {
-  writeFile(resolve(fName), str, err => {
-    if (err) return rej(err)
+const log = (err: Error) => console.log(err);
+
+const isFile = (f: string) => statSync(f).isFile();
+
+const readFolder = (folder: string) => new Promise((res, rej) => {
+  readdir(resolve(folder), (err, files) => {
+    if (err) rej(err)
     
-    return res(str)
+		const fileList = files.map(f => join(folder, f));
+    res(fileList.filter(isFile));
   })
-})
+});
+
 
 const read = (fName: string) => new Promise((res, rej) => {
   readFile(resolve(fName), (err, str) => {
-    if (err) return rej(err)
+    if (err) rej(err)
     
-    return res(str)
+    res(str)
   })
-})
+});
 
-export = (files: Array<string>, output?: string) => new Promise((res, rej) => {
-  Promise.all(files.map(read)).
-    then(input => {
-      if (output) {
-        write(output, input.join('\n')).then(res).catch(rej)
-      } else {
-        return res(input.join('\n'))
-      }
-    }).
-    catch(rej)
-})
+const concat = (files: string[]) => new Promise((res, rej) => {
+	return Promise.all(files.map(read))
+		.then(src => res(src.join('\n')))
+		.catch(rej);
+});
+
+export = (folder: string[] | string) => new Promise((res, rej) => {
+	if(typeof folder === 'string') { 
+		readFolder(folder)
+			.then(concat)
+			.then(res)
+			.catch(rej);
+	} else {
+		concat(folder)
+			.then(res)
+			.catch(rej);
+	}
+});
