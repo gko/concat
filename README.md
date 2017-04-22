@@ -12,11 +12,8 @@ Usage: concat [options]
 concatenate multiple files
 
 Options:
-
     -h, --help                   output usage information
-  
     -V, --version                output the version number
-  
     -o, --output <file>          output file
 ```
 
