@@ -1,6 +1,6 @@
 {
   "name": "concat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "concatenate multiple files",
   "main": "index.js",
   "scripts": {

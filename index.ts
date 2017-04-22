@@ -1,9 +1,17 @@
-import {readFile, readdir, statSync} from 'fs'
+import {readFile, readdir, writeFile, statSync} from 'fs'
 import {resolve, join} from 'path'
 
 const log = (err: Error) => console.log(err);
 
 const isFile = (f: string) => statSync(f).isFile();
+
+const write = (fName: string, str: string) => new Promise((res, rej) => {
+  writeFile(resolve(fName), str, (err: Error) => {
+    if (err) return rej(err)
+    
+    return res(str)
+  })
+});
 
 const readFolder = (folder: string) => new Promise((res, rej) => {
   readdir(resolve(folder), (err, files) => {
@@ -29,15 +37,22 @@ const concat = (files: string[]) => new Promise((res, rej) => {
 		.catch(rej);
 });
 
-export = (folder: string[] | string) => new Promise((res, rej) => {
+export = (folder: string[] | string, outFile?: string) => new Promise((res, rej) => {
+	let concatenated;
+
 	if(typeof folder === 'string') { 
-		readFolder(folder)
-			.then(concat)
-			.then(res)
-			.catch(rej);
+		concatenated = readFolder(folder)
+			.then(concat);
 	} else {
-		concat(folder)
+		concatenated = concat(folder);
+	}
+
+	if (outFile) {
+		concatenated.then((out: string) => write(outFile, out)
 			.then(res)
-			.catch(rej);
+			.catch(rej)
+		).catch(rej);
+	} else {
+		concatenated.then(res).catch(rej);
 	}
 });
