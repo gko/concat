@@ -13,7 +13,7 @@ const write = (fName, str) => new Promise((res, rej) => {
 const readFolder = (folder) => new Promise((res, rej) => {
     fs_1.readdir(path_1.resolve(folder), (err, files) => {
         if (err)
-            rej(err);
+            return rej(err);
         const fileList = files.map(f => path_1.join(folder, f));
         res(fileList.filter(isFile));
     });
@@ -21,7 +21,7 @@ const readFolder = (folder) => new Promise((res, rej) => {
 const read = (fName) => new Promise((res, rej) => {
     fs_1.readFile(path_1.resolve(fName), (err, str) => {
         if (err)
-            rej(err);
+            return rej(err);
         res(str);
     });
 });
